@@ -9,6 +9,6 @@ using namespace std;
 
 
 int main(){
-
+	DS_LOG_INFO("Hello, World!");
 	return 0;
 }
