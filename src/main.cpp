@@ -8,7 +8,7 @@ int main(){
 	string filename = "/home/aaron/Downloads/randomwords.pdf";
 	string line;
 
-	inPDF.open(filename);
+	inPDF.open(filename, ios::binary);
 
 	if(inPDF.is_open()){
 		while(getline(inPDF, line)){
