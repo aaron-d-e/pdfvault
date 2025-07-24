@@ -2,6 +2,9 @@
 
 #include <iostream>
 #include "zlib.h"
+#include "ds.h"
+
+#define DS_IMPLEMENTATION
 using namespace std;
 
 
