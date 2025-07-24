@@ -6,6 +6,8 @@ project(pdfvault)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 
+find_package(ZLIB REQUIRED)
+
 set(CMAKE_CXX_FLAGS "-O3 -Wall")
 
 file(GLOB CPP_SOURCE
@@ -16,4 +18,6 @@ file(GLOB CPP_SOURCE
 include_directories(${PROJECT_SOURCE_DIR}/src)
 
 add_executable(main ${CPP_SOURCE})
+
+target_link_libraries(main ZLIB::ZLIB)
 

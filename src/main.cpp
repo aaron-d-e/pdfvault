@@ -1,23 +1,11 @@
+//need zlib and ds.h
+
 #include <iostream>
-#include <fstream>
+#include "zlib.h"
 using namespace std;
 
 
 int main(){
-	ifstream inPDF;
-	string filename = "/home/aaron/Downloads/randomwords.pdf";
-	string line;
-
-	inPDF.open(filename, ios::binary);
-
-	if(inPDF.is_open()){
-		while(getline(inPDF, line)){
-			cout << line << endl;
-		}
-	}
-	else{
-		exit(1);
-	}
 
 	return 0;
 }
