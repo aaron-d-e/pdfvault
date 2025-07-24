@@ -4,11 +4,17 @@
 #include "zlib.h"
 #include "ds.h"
 
-#define DS_IMPLEMENTATION
+#define DS_IO_IMPLEMENTATION
 using namespace std;
 
 
 int main(){
-	DS_LOG_INFO("Hello, World!");
+	const char* filename = "/home/aaron/Downloads/randomwords.pdf";
+	char* buffer = NULL;
+	
+	int buffer_len = ds_io_read_binary("/home/aaron/Downloads/randomwords.pdf", &buffer);
+
+	DS_LOG_INFO("%s", buffer);
+
 	return 0;
 }
