@@ -1,29 +1,48 @@
 #define DS_IMPLEMENTATION
 #define DS_IO_IMPLEMENTATION
 #include "ds.h"
-
+#include "zlib.h"
 int main(){
 	int result = 0;
+	int uncmp = 0;
 	char *buffer = NULL;
 	long buffer_len = ds_io_read("/home/aaron/pdfvault/pdfs/randomwords.pdf", &buffer, "rb");
 	if (buffer_len < 0){
 		DS_LOG_ERROR("Failed to read file");
-		return_defer(1);
+		return_defer(-1);
 	}
-	DS_LOG_INFO("%s", buffer);
 
 	//parse for stream, start and end
-	int beg_index = 0, end_index = 0;
+	int start_index = 0, end_index = 0;
 	for(int i = 0; i < buffer_len; i++){
 		if(strncmp("stream", buffer + i, 6) == 0){
-			beg_index = i + 6;
+			start_index = i + 6;
 		}
 	}
-	for(int i = beg_index; i < buffer_len; i++){
+	for(int i = start_index; i < buffer_len; i++){
 		if(strncmp("endstream", buffer + i, 9) == 0){
-			end_index = i
+			end_index = i;
 		}
 	}
+
+	//Bytef is an unsigned char
+	Bytef *source = (Bytef *)(buffer + start_index);
+
+	//unsigned long - len of shortened buffer
+	uLong source_len = end_index - start_index;
+
+	//basically an abritrary size, source times 8 bytes
+	uLongf dest_len = source_len * 8;
+
+	//allocate enough size for length of source
+	Bytef *dest = calloc(sizeof(Bytef), dest_len);	
+	result = uncompress(dest, &dest_len, source, source_len);
+	if(result != Z_OK){
+		DS_LOG_ERROR("Uncompress failed.");
+		return_defer(-1);
+	}
+
+
 
 defer:
 	if(buffer != NULL){
