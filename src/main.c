@@ -29,12 +29,11 @@ int main(){
 
 	//Bytef is an unsigned char
 	Bytef *source = (Bytef *)(buffer + start_index);
-
 	//unsigned long - len of shortened buffer
 	uLong source_len = (uLong)(end_index - start_index);
 
 	//basically an abritrary size, source times 8 bytes
-	uLongf dest_len = source_len * 10;
+	uLongf dest_len = source_len * 15;
 
 	//allocate enough size for length of source
 	Bytef *dest = calloc(sizeof(Bytef), dest_len);	
@@ -44,6 +43,10 @@ int main(){
 		DS_LOG_ERROR("Uncompress failed: %d", result);
 		return_defer(-1);
 	}
+
+	char *text = (char *)dest;
+
+	DS_LOG_INFO("%s", text);
 
 
 defer:
