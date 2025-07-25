@@ -12,12 +12,15 @@ set(CMAKE_CXX_FLAGS "-O3 -Wall")
 
 file(GLOB CPP_SOURCE
 	"${PROJECT_SOURCE_DIR}/src/*.cpp"
+	"${PROJECT_SOURCE_DIR}/src/*.c"
 	"${PROJECT_SOURCE_DIR}/src/*/*.cpp"
 )
 
-include_directories(${PROJECT_SOURCE_DIR}/src)
+include_directories(${PROJECT_SOURCE_DIR}/src/)
 
 add_executable(main ${CPP_SOURCE})
 
-target_link_libraries(main ZLIB::ZLIB)
+target_link_libraries(
+	main ZLIB::ZLIB
+)
 
