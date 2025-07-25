@@ -6,7 +6,7 @@ int main(){
 	int result = 0;
 	int uncmp = 0;
 	char *buffer = NULL;
-	long buffer_len = ds_io_read("/home/aaron/pdfvault/pdfs/randomwords.pdf", &buffer, "rb");
+	long buffer_len = ds_io_read("/home/aaron/pdfvault/pdfs/ocrtest.pdf", &buffer, "rb");
 	if (buffer_len < 0){
 		DS_LOG_ERROR("Failed to read file");
 		return_defer(-1);
@@ -33,7 +33,7 @@ int main(){
 	uLong source_len = (uLong)(end_index - start_index);
 
 	//basically an abritrary size, source times 8 bytes
-	uLongf dest_len = source_len * 15;
+	uLongf dest_len = source_len * 13;
 
 	//allocate enough size for length of source
 	Bytef *dest = calloc(sizeof(Bytef), dest_len);	
