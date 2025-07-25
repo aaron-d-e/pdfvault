@@ -12,16 +12,18 @@ int main(){
 		return_defer(-1);
 	}
 
-	//parse for stream, start and end
+	//parse for stream, start and end, breaks are to stop strncmp when you find what youre looking for
 	int start_index = 0, end_index = 0;
 	for(int i = 0; i < buffer_len; i++){
 		if(strncmp("stream", buffer + i, 6) == 0){
-			start_index = i + 6;
+			start_index = i + 7;
+			break;
 		}
 	}
 	for(int i = start_index; i < buffer_len; i++){
 		if(strncmp("endstream", buffer + i, 9) == 0){
 			end_index = i;
+			break;
 		}
 	}
 
@@ -29,19 +31,19 @@ int main(){
 	Bytef *source = (Bytef *)(buffer + start_index);
 
 	//unsigned long - len of shortened buffer
-	uLong source_len = end_index - start_index;
+	uLong source_len = (uLong)(end_index - start_index);
 
 	//basically an abritrary size, source times 8 bytes
-	uLongf dest_len = source_len * 8;
+	uLongf dest_len = source_len * 10;
 
 	//allocate enough size for length of source
 	Bytef *dest = calloc(sizeof(Bytef), dest_len);	
+	
 	result = uncompress(dest, &dest_len, source, source_len);
 	if(result != Z_OK){
-		DS_LOG_ERROR("Uncompress failed.");
+		DS_LOG_ERROR("Uncompress failed: %d", result);
 		return_defer(-1);
 	}
-
 
 
 defer:
