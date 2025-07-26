@@ -6,7 +6,8 @@ int main(){
 	int result = 0;
 	int uncmp = 0;
 	char *buffer = NULL;
-	long buffer_len = ds_io_read("/home/aaron/pdfvault/pdfs/ocrtest.pdf", &buffer, "rb");
+	long buffer_len = ds_io_read("/home/aaron/pdfvault/pdfs/Sample.pdf", &buffer, "rb");
+
 	if (buffer_len < 0){
 		DS_LOG_ERROR("Failed to read file");
 		return_defer(-1);
@@ -26,6 +27,15 @@ int main(){
 			break;
 		}
 	}
+
+	char *stream1 = calloc(sizeof(char), buffer_len);
+
+	for(int i = 0; i < buffer_len; i++){
+		stream1[i] = buffer[i+start_index]; 
+	}
+
+	DS_LOG_INFO("%s", "Original pre-uncompressed buffer is: ");
+	DS_LOG_INFO("%s", stream1);
 
 	//Bytef is an unsigned char
 	Bytef *source = (Bytef *)(buffer + start_index);
