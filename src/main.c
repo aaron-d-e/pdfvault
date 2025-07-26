@@ -2,6 +2,7 @@
 #define DS_IO_IMPLEMENTATION
 #include "ds.h"
 #include "zlib.h"
+#include "mupdf/fitz.h"
 int main(){
 	int result = 0;
 	int uncmp = 0;
@@ -27,12 +28,15 @@ int main(){
 			break;
 		}
 	}
+	
 
-	char *stream1 = calloc(sizeof(char), buffer_len);
-
+	Bytef *stream1 = calloc(sizeof(Bytef), buffer_len);
 	for(int i = 0; i < buffer_len; i++){
 		stream1[i] = buffer[i+start_index]; 
 	}
+
+	DS_LOG_INFO("Original buffer length '%i' ", buffer_len);
+	DS_LOG_INFO("Size of stream1 '%i' ", sizeof(stream1));
 
 	DS_LOG_INFO("%s", "Original pre-uncompressed buffer is: ");
 	DS_LOG_INFO("%s", stream1);
@@ -47,6 +51,7 @@ int main(){
 
 	//allocate enough size for length of source
 	Bytef *dest = calloc(sizeof(Bytef), dest_len);	
+	DS_LOG_INFO("dest size '%i'", dest_len);
 	
 	result = uncompress(dest, &dest_len, source, source_len);
 	if(result != Z_OK){
@@ -57,7 +62,6 @@ int main(){
 	char *text = (char *)dest;
 
 	DS_LOG_INFO("%s", text);
-
 
 defer:
 	if(buffer != NULL){

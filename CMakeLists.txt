@@ -16,11 +16,17 @@ file(GLOB CPP_SOURCE
 	"${PROJECT_SOURCE_DIR}/src/*/*.cpp"
 )
 
-include_directories(${PROJECT_SOURCE_DIR}/src/)
+include_directories(
+	${PROJECT_SOURCE_DIR}/src/
+	/usr/include/mupdf
+ 	/usr/include/freetype2
+)
 
 add_executable(main ${CPP_SOURCE})
 
-target_link_libraries(
-	main ZLIB::ZLIB
+target_link_libraries(main 
+	ZLIB::ZLIB
+	mupdf
+	m
 )
 
