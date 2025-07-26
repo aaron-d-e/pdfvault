@@ -35,23 +35,20 @@ int main(){
 		stream1[i] = buffer[i+start_index]; 
 	}
 
+	/*
 	DS_LOG_INFO("Original buffer length '%i' ", buffer_len);
 	DS_LOG_INFO("Size of stream1 '%i' ", sizeof(stream1));
 
 	DS_LOG_INFO("%s", "Original pre-uncompressed buffer is: ");
 	DS_LOG_INFO("%s", stream1);
+	*/
 
-	//Bytef is an unsigned char
 	Bytef *source = (Bytef *)(buffer + start_index);
-	//unsigned long - len of shortened buffer
 	uLong source_len = (uLong)(end_index - start_index);
-
-	//basically an abritrary size, source times 8 bytes
 	uLongf dest_len = source_len * 13;
-
-	//allocate enough size for length of source
 	Bytef *dest = calloc(sizeof(Bytef), dest_len);	
-	DS_LOG_INFO("dest size '%i'", dest_len);
+
+	//DS_LOG_INFO("dest size '%i'", dest_len);
 	
 	result = uncompress(dest, &dest_len, source, source_len);
 	if(result != Z_OK){
@@ -61,7 +58,7 @@ int main(){
 
 	char *text = (char *)dest;
 
-	DS_LOG_INFO("%s", text);
+	//DS_LOG_INFO("%s", text);
 
 defer:
 	if(buffer != NULL){
