@@ -1,32 +1,32 @@
 # cmake version
-cmake_minimum_required(VERSION 4.0)
+cmake_minimum_required(VERSION 3.10)
 
-project(pdfvault)
+project(pdfvault C)
 
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
+set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD_REQUIRED TRUE)
 
-find_package(ZLIB REQUIRED)
+# Find required packages
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(MUPDF REQUIRED mupdf)
 
-set(CMAKE_CXX_FLAGS "-O3 -Wall")
+set(CMAKE_C_FLAGS "-O3 -Wall")
 
-file(GLOB CPP_SOURCE
-	"${PROJECT_SOURCE_DIR}/src/*.cpp"
+file(GLOB C_SOURCE
 	"${PROJECT_SOURCE_DIR}/src/*.c"
-	"${PROJECT_SOURCE_DIR}/src/*/*.cpp"
 )
 
 include_directories(
 	${PROJECT_SOURCE_DIR}/src/
-	/usr/include/mupdf
- 	/usr/include/freetype2
+	${MUPDF_INCLUDE_DIRS}
 )
 
-add_executable(main ${CPP_SOURCE})
+add_executable(main ${C_SOURCE})
 
 target_link_libraries(main 
-	ZLIB::ZLIB
-	mupdf
+	${MUPDF_LIBRARIES}
 	m
 )
+
+target_compile_options(main PRIVATE ${MUPDF_CFLAGS_OTHER})
 
