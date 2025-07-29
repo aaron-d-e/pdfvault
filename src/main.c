@@ -6,6 +6,27 @@
 #include <string.h>
 #include <setjmp.h>
 #include "mupdf/fitz.h"
+#include "gtk/gtk.h"
+
+static void
+activate (GtkApplication *app, gpointer user_data){
+	GtkWidget *window;
+
+  	window = gtk_application_window_new (app);
+  	gtk_window_set_title (GTK_WINDOW (window), "Window");
+  	gtk_window_set_default_size (GTK_WINDOW (window), 200, 200);
+  	gtk_window_present (GTK_WINDOW (window));
+}
+
+void gtk_test(int argc, char *argv[]){
+	GtkApplication *app = NULL;
+	int status;
+	app = gtk_application_new ("org.gtk.example", G_APPLICATION_DEFAULT_FLAGS);
+	g_signal_connect (app, "activate", G_CALLBACK (activate), NULL);
+	status = g_application_run (G_APPLICATION (app), argc, argv);
+	printf("status: %i", status);
+	g_object_unref (app);
+}
 
 void print_usage(const char *program_name) {
     printf("Usage: %s <pdf_file>\n", program_name);
@@ -128,6 +149,9 @@ defer:
 }
 
 int main(int argc, char *argv[]) {
+
+	gtk_test(argc, argv);
+
     if (argc != 2) {
         print_usage(argv[0]);
         return 1;

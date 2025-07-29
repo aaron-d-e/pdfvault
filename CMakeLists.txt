@@ -9,6 +9,7 @@ set(CMAKE_C_STANDARD_REQUIRED TRUE)
 # Find required packages
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(MUPDF REQUIRED mupdf)
+pkg_check_modules(GTK4 REQUIRED IMPORTED_TARGET gtk4)
 
 set(CMAKE_C_FLAGS "-O3 -Wall")
 
@@ -25,6 +26,7 @@ add_executable(main ${C_SOURCE})
 
 target_link_libraries(main 
 	${MUPDF_LIBRARIES}
+	PkgConfig::GTK4
 	m
 )
 
